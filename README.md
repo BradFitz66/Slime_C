@@ -22,21 +22,21 @@ Rocket:
 
 - [ ] Complete recreation of rocket's character controller
 
-- [x] Idle state
+    - [x] Idle state
 
-- [x] Walking state
+    - [x] Walking state
 
-- [x] Jumping state
+    - [x] Jumping state
 
-- [x] Floating state
+    - [x] Floating state
 
-- [ ] Stretching state
+    - [ ] Stretching state
 
-- [ ] Elastoblast state
+    - [ ] Elastoblast state
 
-- [ ] Charged elastoblast state
+    - [ ] Charged elastoblast state
 
-- [ ] Wall bounce state
+    - [ ] Wall bounce state
 
 Graphics:
 
