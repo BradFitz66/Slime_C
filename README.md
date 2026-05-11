@@ -12,6 +12,12 @@ The end goal of this specific project is to have enough groundwork to recreate t
 Program is built with CMake using the Visual Studio 2022 configuration. Every library is retrieved via FetchContent or provided inside /vendored.
 Program has only been tested within Windows, no support for building on Linux or MacOS. 
 
+Basic process:
+* Get CMake
+* Create build folder in root of directory (where src and vendored is)
+* Run CMake config from within that folder (I use CMake GUI to simplify this process)
+* Run the relevant build command from within the build folder
+
 # Current status
 
 Rocket:
