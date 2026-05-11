@@ -16,21 +16,35 @@ Program has only been tested within Windows, no support for building on Linux or
 
 Rocket:
     - [x] Loading and rendering of Rocket from a sprite sheet
+
     - [x] Animation loading and running from a sprite sheet
+    
     - [ ] Complete recreation of rocket's character controller
+    
         -[x] Idle state
+    
         -[x] Walking state
+    
         -[x] Jumping state
+    
         -[x] Floating state
+    
         -[ ] Stretching state
+    
         -[ ] Elastoblast state
+    
         -[ ] Charged elastoblast state
+    
         -[ ] Wall bounce state
 
 Graphics:
     - [ ] Automated way of ripping sprites from a copy of the ROM (work being done by 0Unique on Github) 
+    
     - [x] Sprite sheet of Rocket (already existed - ripped directly from the ROM so should be 100% accurate)
+    
     - [ ] Some sort of map built from tiles ripped from the game
+    
     - [ ] Enemy sprites 
+    
     - [ ] Other character sprites (hooly, swotsy, etc)
     
