@@ -1,0 +1,6 @@
+CompileFlags:
+  CompilationDatabase: build
+  Add:
+    - -Ibuild/_deps/sdl2-src/include
+    - -Ibuild/_deps/sdl2_image-src
+    - -Ivendor/cJSON
