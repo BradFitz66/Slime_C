@@ -1,5 +1,4 @@
 #include "TextureSheet.h"
-#include "Fixed.h"
 #include <stdio.h>
 #include <SDL3_image/SDL_image.h>
 #include <stdlib.h>

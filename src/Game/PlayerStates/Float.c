@@ -33,7 +33,6 @@ void Float_Update(void* data)
     if (entity->z < 1){
         entity->z = 0;
         entity->zVel = 0;
-        entity->timer = 0;
         STATEMACHINE_ChangeState(entity->stateMachine, 0, entity); // Switch to idle state
         return;
     }

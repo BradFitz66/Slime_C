@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Fixed.h"
 #include "Texture.h"
 #include "TextureSheet.h"
 #include "StateMachine.h"
