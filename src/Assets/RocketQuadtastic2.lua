@@ -1,7 +1,7 @@
 return {
   animations = {
     {
-      displayed_frame = 3,
+      displayed_frame = 1,
       duration = 1,
       flipX = false,
       flipY = false,
@@ -86,7 +86,7 @@ return {
       name = "Idle_Up",
     },
     {
-      displayed_frame = 1,
+      displayed_frame = 6,
       duration = 1,
       flipX = false,
       flipY = false,
@@ -681,7 +681,7 @@ return {
       name = "Idle_DiagTL",
     },
     {
-      displayed_frame = 10,
+      displayed_frame = 8,
       duration = 1,
       flipX = false,
       flipY = false,
@@ -883,7 +883,7 @@ return {
       name = "Walk_DiagTR",
     },
     {
-      displayed_frame = 6,
+      displayed_frame = 10,
       duration = 1,
       flipX = false,
       flipY = false,
@@ -1489,7 +1489,7 @@ return {
       name = "Walk_DiagTL",
     },
     {
-      displayed_frame = 12,
+      displayed_frame = 11,
       duration = 1,
       flipX = false,
       flipY = false,
@@ -1539,10 +1539,6 @@ return {
           duration = "32",
           quad = {x = 141, y = 175, w = 30, h = 18, ox = 0.500000, oy = 1.000000},
         },
-        {
-          duration = "32",
-          quad = {x = 141, y = 324, w = 30, h = 18, ox = 0.500000, oy = 0.888889},
-        },
       },
       frames_compact = {
         {
@@ -1588,10 +1584,6 @@ return {
         {
           duration = "32",
           quad = {x = 141, y = 175, w = 30, h = 18, ox = 0.500000, oy = 1.000000},
-        },
-        {
-          duration = "32",
-          quad = {x = 141, y = 324, w = 30, h = 18, ox = 0.500000, oy = 0.888889},
         },
       },
       loop = false,
@@ -1648,10 +1640,6 @@ return {
           duration = "32",
           quad = {x = 141, y = 209, w = 30, h = 18, ox = 0.500000, oy = 1.000000},
         },
-        {
-          duration = "32",
-          quad = {x = 106, y = 324, w = 30, h = 18, ox = 0.500000, oy = 0.888889},
-        },
       },
       frames_compact = {
         {
@@ -1698,16 +1686,12 @@ return {
           duration = "32",
           quad = {x = 141, y = 209, w = 30, h = 18, ox = 0.500000, oy = 1.000000},
         },
-        {
-          duration = "32",
-          quad = {x = 106, y = 324, w = 30, h = 18, ox = 0.500000, oy = 0.888889},
-        },
       },
       loop = false,
       name = "Squish_DiagTR",
     },
     {
-      displayed_frame = 12,
+      displayed_frame = 11,
       duration = 1,
       flipX = false,
       flipY = false,
@@ -1735,7 +1719,7 @@ return {
         },
         {
           duration = "32",
-          quad = {x = 72, y = 324, w = 30, h = 18, ox = 0.500000, oy = 0.888889},
+          quad = {x = 72, y = 324, w = 30, h = 18, ox = 0.433333, oy = 1.000000},
         },
         {
           duration = "32",
@@ -1743,7 +1727,7 @@ return {
         },
         {
           duration = "32",
-          quad = {x = 72, y = 324, w = 30, h = 18, ox = 0.500000, oy = 0.888889},
+          quad = {x = 72, y = 324, w = 30, h = 18, ox = 0.433333, oy = 1.000000},
         },
         {
           duration = "32",
@@ -1751,15 +1735,11 @@ return {
         },
         {
           duration = "32",
-          quad = {x = 72, y = 324, w = 30, h = 18, ox = 0.500000, oy = 0.888889},
+          quad = {x = 72, y = 324, w = 30, h = 18, ox = 0.433333, oy = 1.000000},
         },
         {
           duration = "32",
           quad = {x = 141, y = 241, w = 30, h = 18, ox = 0.500000, oy = 1.000000},
-        },
-        {
-          duration = "32",
-          quad = {x = 72, y = 324, w = 30, h = 18, ox = 0.500000, oy = 0.888889},
         },
       },
       frames_compact = {
@@ -1785,7 +1765,7 @@ return {
         },
         {
           duration = "32",
-          quad = {x = 72, y = 324, w = 30, h = 18, ox = 0.500000, oy = 0.888889},
+          quad = {x = 72, y = 324, w = 30, h = 18, ox = 0.433333, oy = 1.000000},
         },
         {
           duration = "32",
@@ -1793,7 +1773,7 @@ return {
         },
         {
           duration = "32",
-          quad = {x = 72, y = 324, w = 30, h = 18, ox = 0.500000, oy = 0.888889},
+          quad = {x = 72, y = 324, w = 30, h = 18, ox = 0.433333, oy = 1.000000},
         },
         {
           duration = "32",
@@ -1801,22 +1781,18 @@ return {
         },
         {
           duration = "32",
-          quad = {x = 72, y = 324, w = 30, h = 18, ox = 0.500000, oy = 0.888889},
+          quad = {x = 72, y = 324, w = 30, h = 18, ox = 0.433333, oy = 1.000000},
         },
         {
           duration = "32",
           quad = {x = 141, y = 241, w = 30, h = 18, ox = 0.500000, oy = 1.000000},
-        },
-        {
-          duration = "32",
-          quad = {x = 72, y = 324, w = 30, h = 18, ox = 0.500000, oy = 0.888889},
         },
       },
       loop = false,
       name = "Squish_R",
     },
     {
-      displayed_frame = 12,
+      displayed_frame = 11,
       duration = 1,
       flipX = false,
       flipY = false,
@@ -1866,10 +1842,6 @@ return {
           duration = "32",
           quad = {x = 141, y = 269, w = 30, h = 18, ox = 0.500000, oy = 1.000000},
         },
-        {
-          duration = "32",
-          quad = {x = 40, y = 324, w = 30, h = 18, ox = 0.500000, oy = 0.888889},
-        },
       },
       frames_compact = {
         {
@@ -1915,17 +1887,13 @@ return {
         {
           duration = "32",
           quad = {x = 141, y = 269, w = 30, h = 18, ox = 0.500000, oy = 1.000000},
-        },
-        {
-          duration = "32",
-          quad = {x = 40, y = 324, w = 30, h = 18, ox = 0.500000, oy = 0.888889},
         },
       },
       loop = false,
       name = "Squish_DiagDR",
     },
     {
-      displayed_frame = 12,
+      displayed_frame = 11,
       duration = 1,
       flipX = false,
       flipY = false,
@@ -1975,10 +1943,6 @@ return {
           duration = "32",
           quad = {x = 141, y = 299, w = 30, h = 18, ox = 0.500000, oy = 1.000000},
         },
-        {
-          duration = "32",
-          quad = {x = 9, y = 324, w = 30, h = 18, ox = 0.500000, oy = 0.888889},
-        },
       },
       frames_compact = {
         {
@@ -2025,16 +1989,12 @@ return {
           duration = "32",
           quad = {x = 141, y = 299, w = 30, h = 18, ox = 0.500000, oy = 1.000000},
         },
-        {
-          duration = "32",
-          quad = {x = 9, y = 324, w = 30, h = 18, ox = 0.500000, oy = 0.888889},
-        },
       },
       loop = false,
       name = "Squish_Down",
     },
     {
-      displayed_frame = 12,
+      displayed_frame = 11,
       duration = 1,
       flipX = true,
       flipY = false,
@@ -2084,10 +2044,6 @@ return {
           duration = "32",
           quad = {x = 141, y = 269, w = 30, h = 18, ox = 0.500000, oy = 1.000000},
         },
-        {
-          duration = "32",
-          quad = {x = 40, y = 324, w = 30, h = 18, ox = 0.500000, oy = 0.888889},
-        },
       },
       frames_compact = {
         {
@@ -2133,10 +2089,6 @@ return {
         {
           duration = "32",
           quad = {x = 141, y = 269, w = 30, h = 18, ox = 0.500000, oy = 1.000000},
-        },
-        {
-          duration = "32",
-          quad = {x = 40, y = 324, w = 30, h = 18, ox = 0.500000, oy = 0.888889},
         },
       },
       loop = false,
@@ -2171,7 +2123,7 @@ return {
         },
         {
           duration = "32",
-          quad = {x = 72, y = 324, w = 30, h = 18, ox = 0.500000, oy = 0.888889},
+          quad = {x = 72, y = 324, w = 30, h = 18, ox = 0.433333, oy = 1.000000},
         },
         {
           duration = "32",
@@ -2179,7 +2131,7 @@ return {
         },
         {
           duration = "32",
-          quad = {x = 72, y = 324, w = 30, h = 18, ox = 0.500000, oy = 0.888889},
+          quad = {x = 72, y = 324, w = 30, h = 18, ox = 0.433333, oy = 1.000000},
         },
         {
           duration = "32",
@@ -2187,15 +2139,11 @@ return {
         },
         {
           duration = "32",
-          quad = {x = 72, y = 324, w = 30, h = 18, ox = 0.500000, oy = 0.888889},
+          quad = {x = 72, y = 324, w = 30, h = 18, ox = 0.433333, oy = 1.000000},
         },
         {
           duration = "32",
           quad = {x = 141, y = 241, w = 30, h = 18, ox = 0.500000, oy = 1.000000},
-        },
-        {
-          duration = "32",
-          quad = {x = 72, y = 324, w = 30, h = 18, ox = 0.500000, oy = 0.888889},
         },
       },
       frames_compact = {
@@ -2221,7 +2169,7 @@ return {
         },
         {
           duration = "32",
-          quad = {x = 72, y = 324, w = 30, h = 18, ox = 0.500000, oy = 0.888889},
+          quad = {x = 72, y = 324, w = 30, h = 18, ox = 0.433333, oy = 1.000000},
         },
         {
           duration = "32",
@@ -2229,7 +2177,7 @@ return {
         },
         {
           duration = "32",
-          quad = {x = 72, y = 324, w = 30, h = 18, ox = 0.500000, oy = 0.888889},
+          quad = {x = 72, y = 324, w = 30, h = 18, ox = 0.433333, oy = 1.000000},
         },
         {
           duration = "32",
@@ -2237,15 +2185,11 @@ return {
         },
         {
           duration = "32",
-          quad = {x = 72, y = 324, w = 30, h = 18, ox = 0.500000, oy = 0.888889},
+          quad = {x = 72, y = 324, w = 30, h = 18, ox = 0.433333, oy = 1.000000},
         },
         {
           duration = "32",
           quad = {x = 141, y = 241, w = 30, h = 18, ox = 0.500000, oy = 1.000000},
-        },
-        {
-          duration = "32",
-          quad = {x = 72, y = 324, w = 30, h = 18, ox = 0.500000, oy = 0.888889},
         },
       },
       loop = false,
@@ -2302,10 +2246,6 @@ return {
           duration = "32",
           quad = {x = 141, y = 209, w = 30, h = 18, ox = 0.500000, oy = 1.000000},
         },
-        {
-          duration = "32",
-          quad = {x = 106, y = 324, w = 30, h = 18, ox = 0.500000, oy = 0.888889},
-        },
       },
       frames_compact = {
         {
@@ -2352,16 +2292,12 @@ return {
           duration = "32",
           quad = {x = 141, y = 209, w = 30, h = 18, ox = 0.500000, oy = 1.000000},
         },
-        {
-          duration = "32",
-          quad = {x = 106, y = 324, w = 30, h = 18, ox = 0.500000, oy = 0.888889},
-        },
       },
       loop = false,
       name = "Squish_DiagTL",
     },
     {
-      displayed_frame = 4,
+      displayed_frame = 3,
       duration = 1,
       flipX = false,
       flipY = false,
@@ -2454,7 +2390,7 @@ return {
       name = "Jump_Up",
     },
     {
-      displayed_frame = 1,
+      displayed_frame = 2,
       duration = 1,
       flipX = false,
       flipY = false,
@@ -2547,7 +2483,7 @@ return {
       name = "Jump_DiagTR",
     },
     {
-      displayed_frame = 1,
+      displayed_frame = 9,
       duration = 1,
       flipX = false,
       flipY = false,
@@ -2591,7 +2527,7 @@ return {
         },
         {
           duration = "32",
-          quad = {x = 775, y = 81, w = 19, h = 19, ox = 0.500000, oy = 1.000000},
+          quad = {x = 774, y = 79, w = 21, h = 19, ox = 0.404762, oy = 1.000000},
         },
       },
       frames_compact = {
@@ -2919,7 +2855,7 @@ return {
       name = "Jump_DiagDL",
     },
     {
-      displayed_frame = 4,
+      displayed_frame = 10,
       duration = 1,
       flipX = true,
       flipY = false,
@@ -2963,7 +2899,7 @@ return {
         },
         {
           duration = "32",
-          quad = {x = 775, y = 81, w = 19, h = 19, ox = 0.500000, oy = 1.000000},
+          quad = {x = 774, y = 79, w = 21, h = 19, ox = 0.404762, oy = 1.000000},
         },
       },
       frames_compact = {
@@ -3179,7 +3115,7 @@ return {
       name = "Float_DiagTR",
     },
     {
-      displayed_frame = 1,
+      displayed_frame = 3,
       duration = 1,
       flipX = false,
       flipY = false,
@@ -3409,7 +3345,7 @@ return {
       frames = {
         {
           duration = "16",
-          quad = {x = 983, y = 177, w = 16, h = 64, ox = 0.500000, oy = 0.750000},
+          quad = {x = 983, y = 177, w = 16, h = 64, ox = 0.500000, oy = 1.093750},
         },
       },
       frames_compact = {
@@ -3430,7 +3366,7 @@ return {
       frames = {
         {
           duration = "16",
-          quad = {x = 1008, y = 177, w = 16, h = 64, ox = 1.000000, oy = 0.750000},
+          quad = {x = 1008, y = 177, w = 16, h = 64, ox = 0.500000, oy = 0.750000},
         },
       },
       frames_compact = {
@@ -3451,7 +3387,7 @@ return {
       frames = {
         {
           duration = "16",
-          quad = {x = 1032, y = 177, w = 16, h = 64, ox = 0.500000, oy = 0.750000},
+          quad = {x = 1032, y = 177, w = 16, h = 64, ox = 0.500000, oy = 1.093750},
         },
       },
       frames_compact = {
@@ -3472,7 +3408,7 @@ return {
       frames = {
         {
           duration = "16",
-          quad = {x = 1008, y = 177, w = 16, h = 64, ox = 1.000000, oy = 0.750000},
+          quad = {x = 1008, y = 177, w = 16, h = 64, ox = 0.500000, oy = 0.750000},
         },
       },
       frames_compact = {
@@ -3522,7 +3458,7 @@ return {
       name = "ElastoBlast_Up",
     },
     {
-      displayed_frame = 3,
+      displayed_frame = 1,
       duration = 1,
       flipX = true,
       flipY = false,
@@ -3559,7 +3495,7 @@ return {
       name = "ElastoBlast_R",
     },
     {
-      displayed_frame = 2,
+      displayed_frame = 3,
       duration = 1,
       flipX = false,
       flipY = false,
@@ -3641,19 +3577,19 @@ return {
       frames = {
         {
           duration = "32",
-          quad = {x = 186, y = 178, w = 24, h = 16, ox = 0.500000, oy = 0.500000},
+          quad = {x = 186, y = 178, w = 24, h = 16, ox = 0.500000, oy = 0.250000},
         },
         {
           duration = "80",
-          quad = {x = 217, y = 179, w = 26, h = 15, ox = 0.500000, oy = 0.500000},
+          quad = {x = 217, y = 179, w = 26, h = 15, ox = 0.500000, oy = 0.250000},
         },
         {
           duration = "96",
-          quad = {x = 249, y = 179, w = 28, h = 16, ox = 0.500000, oy = 0.500000},
+          quad = {x = 249, y = 179, w = 28, h = 16, ox = 0.500000, oy = 0.250000},
         },
         {
           duration = "96",
-          quad = {x = 282, y = 179, w = 30, h = 16, ox = 0.500000, oy = 0.500000},
+          quad = {x = 282, y = 179, w = 30, h = 16, ox = 0.500000, oy = 0.250000},
         },
       },
       frames_compact = {
@@ -3694,11 +3630,11 @@ return {
         },
         {
           duration = "96",
-          quad = {x = 250, y = 201, w = 25, h = 24, ox = 0.620000, oy = 0.416667},
+          quad = {x = 250, y = 201, w = 25, h = 24, ox = 0.750000, oy = 0.250000},
         },
         {
           duration = "96",
-          quad = {x = 285, y = 201, w = 25, h = 26, ox = 0.500000, oy = 0.500000},
+          quad = {x = 285, y = 201, w = 25, h = 26, ox = 0.750000, oy = 0.250000},
         },
       },
       frames_compact = {
@@ -3731,19 +3667,19 @@ return {
       frames = {
         {
           duration = "32",
-          quad = {x = 190, y = 234, w = 16, h = 24, ox = 1.000000, oy = 1.000000},
+          quad = {x = 190, y = 234, w = 16, h = 24, ox = 0.750000, oy = 0.500000},
         },
         {
           duration = "80",
-          quad = {x = 221, y = 233, w = 15, h = 26, ox = 1.000000, oy = 1.000000},
+          quad = {x = 221, y = 233, w = 15, h = 26, ox = 0.750000, oy = 0.500000},
         },
         {
           duration = "96",
-          quad = {x = 253, y = 232, w = 17, h = 28, ox = 1.000000, oy = 1.000000},
+          quad = {x = 253, y = 232, w = 17, h = 28, ox = 0.750000, oy = 0.500000},
         },
         {
           duration = "96",
-          quad = {x = 288, y = 231, w = 16, h = 30, ox = 1.000000, oy = 1.000000},
+          quad = {x = 288, y = 231, w = 16, h = 30, ox = 0.750000, oy = 0.500000},
         },
       },
       frames_compact = {
@@ -3768,7 +3704,7 @@ return {
       name = "WallHit_R",
     },
     {
-      displayed_frame = 1,
+      displayed_frame = 4,
       duration = 1,
       flipX = false,
       flipY = false,
@@ -3813,7 +3749,7 @@ return {
       name = "WallHit_DiagDR",
     },
     {
-      displayed_frame = 1,
+      displayed_frame = 4,
       duration = 1,
       flipX = false,
       flipY = false,
@@ -3821,19 +3757,19 @@ return {
       frames = {
         {
           duration = "32",
-          quad = {x = 187, y = 296, w = 24, h = 22, ox = 0.500000, oy = 1.250000},
+          quad = {x = 187, y = 296, w = 24, h = 22, ox = 0.500000, oy = 0.750000},
         },
         {
           duration = "80",
-          quad = {x = 218, y = 296, w = 26, h = 21, ox = 0.500000, oy = 1.250000},
+          quad = {x = 218, y = 296, w = 26, h = 21, ox = 0.500000, oy = 0.750000},
         },
         {
           duration = "96",
-          quad = {x = 250, y = 297, w = 26, h = 20, ox = 0.500000, oy = 1.250000},
+          quad = {x = 250, y = 297, w = 26, h = 20, ox = 0.500000, oy = 0.750000},
         },
         {
           duration = "96",
-          quad = {x = 284, y = 297, w = 28, h = 20, ox = 0.500000, oy = 1.250000},
+          quad = {x = 284, y = 297, w = 28, h = 20, ox = 0.500000, oy = 0.750000},
         },
       },
       frames_compact = {
@@ -3911,19 +3847,19 @@ return {
       frames = {
         {
           duration = "32",
-          quad = {x = 190, y = 234, w = 16, h = 24, ox = 1.000000, oy = 1.000000},
+          quad = {x = 190, y = 234, w = 16, h = 24, ox = 0.750000, oy = 0.500000},
         },
         {
           duration = "80",
-          quad = {x = 221, y = 233, w = 15, h = 26, ox = 1.000000, oy = 1.000000},
+          quad = {x = 221, y = 233, w = 15, h = 26, ox = 0.750000, oy = 0.500000},
         },
         {
           duration = "96",
-          quad = {x = 253, y = 232, w = 17, h = 28, ox = 1.000000, oy = 1.000000},
+          quad = {x = 253, y = 232, w = 17, h = 28, ox = 0.750000, oy = 0.500000},
         },
         {
           duration = "96",
-          quad = {x = 288, y = 231, w = 16, h = 30, ox = 1.000000, oy = 1.000000},
+          quad = {x = 288, y = 231, w = 16, h = 30, ox = 0.750000, oy = 0.500000},
         },
       },
       frames_compact = {
@@ -3964,11 +3900,11 @@ return {
         },
         {
           duration = "96",
-          quad = {x = 250, y = 201, w = 25, h = 24, ox = 0.620000, oy = 0.416667},
+          quad = {x = 250, y = 201, w = 25, h = 24, ox = 0.750000, oy = 0.250000},
         },
         {
           duration = "96",
-          quad = {x = 285, y = 201, w = 25, h = 26, ox = 0.500000, oy = 0.500000},
+          quad = {x = 285, y = 201, w = 25, h = 26, ox = 0.750000, oy = 0.250000},
         },
       },
       frames_compact = {
@@ -4737,7 +4673,7 @@ return {
       name = "ChargedBlast_DiagTL",
     },
     {
-      displayed_frame = 3,
+      displayed_frame = 2,
       duration = 1,
       flipX = false,
       flipY = false,
@@ -4782,7 +4718,7 @@ return {
       name = "Spin_UpDown",
     },
     {
-      displayed_frame = 2,
+      displayed_frame = 1,
       duration = 1,
       flipX = false,
       flipY = false,
@@ -4827,7 +4763,7 @@ return {
       name = "Spin_LR",
     },
     {
-      displayed_frame = 4,
+      displayed_frame = 2,
       duration = 1,
       flipX = false,
       flipY = false,
@@ -4872,7 +4808,7 @@ return {
       name = "Spin_DiagTRDL",
     },
     {
-      displayed_frame = 3,
+      displayed_frame = 1,
       duration = 1,
       flipX = true,
       flipY = false,
@@ -5126,7 +5062,7 @@ return {
       {x = 686, y = 79, w = 22, h = 19, ox = 0.500000, oy = 1.000000},
       {x = 716, y = 79, w = 22, h = 20, ox = 0.500000, oy = 1.000000},
       {x = 745, y = 79, w = 21, h = 20, ox = 0.500000, oy = 1.000000},
-      {x = 775, y = 81, w = 19, h = 19, ox = 0.500000, oy = 1.000000},
+      {x = 774, y = 79, w = 21, h = 19, ox = 0.404762, oy = 1.000000},
       {x = 523, y = 109, w = 20, h = 19, ox = 0.500000, oy = 1.000000},
       {x = 552, y = 108, w = 20, h = 19, ox = 0.500000, oy = 1.000000},
       {x = 579, y = 108, w = 20, h = 19, ox = 0.500000, oy = 1.000000},
@@ -5207,15 +5143,15 @@ return {
     Squished_vibrate = {
       {x = 9, y = 324, w = 30, h = 18, ox = 0.500000, oy = 0.888889},
       {x = 40, y = 324, w = 30, h = 18, ox = 0.500000, oy = 0.888889},
-      {x = 72, y = 324, w = 30, h = 18, ox = 0.500000, oy = 0.888889},
+      {x = 72, y = 324, w = 30, h = 18, ox = 0.433333, oy = 1.000000},
       {x = 106, y = 324, w = 30, h = 18, ox = 0.500000, oy = 0.888889},
       {x = 141, y = 324, w = 30, h = 18, ox = 0.500000, oy = 0.888889},
     },
     Stretch = {
-      {x = 983, y = 177, w = 16, h = 64, ox = 0.500000, oy = 0.750000},
-      {x = 1008, y = 177, w = 16, h = 64, ox = 1.000000, oy = 0.750000},
-      {x = 1032, y = 177, w = 16, h = 64, ox = 0.500000, oy = 0.750000},
-      {x = 1054, y = 177, w = 16, h = 64, ox = 0.000000, oy = 0.750000},
+      {x = 983, y = 177, w = 16, h = 64, ox = 0.500000, oy = 1.093750},
+      {x = 1008, y = 177, w = 16, h = 64, ox = 0.500000, oy = 0.750000},
+      {x = 1032, y = 177, w = 16, h = 64, ox = 0.500000, oy = 1.093750},
+      {x = 1054, y = 177, w = 16, h = 64, ox = 0.500000, oy = 0.750000},
     },
     Throw = {
       {x = 249, y = 11, w = 20, h = 21, ox = 0.500000, oy = 0.500000},
@@ -5319,26 +5255,26 @@ return {
     Walk2 = {
     },
     WallHit = {
-      {x = 186, y = 178, w = 24, h = 16, ox = 0.500000, oy = 0.500000},
-      {x = 217, y = 179, w = 26, h = 15, ox = 0.500000, oy = 0.500000},
-      {x = 249, y = 179, w = 28, h = 16, ox = 0.500000, oy = 0.500000},
-      {x = 282, y = 179, w = 30, h = 16, ox = 0.500000, oy = 0.500000},
+      {x = 186, y = 178, w = 24, h = 16, ox = 0.500000, oy = 0.250000},
+      {x = 217, y = 179, w = 26, h = 15, ox = 0.500000, oy = 0.250000},
+      {x = 249, y = 179, w = 28, h = 16, ox = 0.500000, oy = 0.250000},
+      {x = 282, y = 179, w = 30, h = 16, ox = 0.500000, oy = 0.250000},
       {x = 187, y = 202, w = 21, h = 21, ox = 0.750000, oy = 0.250000},
       {x = 218, y = 201, w = 22, h = 23, ox = 0.750000, oy = 0.250000},
-      {x = 250, y = 201, w = 25, h = 24, ox = 0.620000, oy = 0.416667},
-      {x = 285, y = 201, w = 25, h = 26, ox = 0.500000, oy = 0.500000},
-      {x = 190, y = 234, w = 16, h = 24, ox = 1.000000, oy = 1.000000},
-      {x = 221, y = 233, w = 15, h = 26, ox = 1.000000, oy = 1.000000},
-      {x = 253, y = 232, w = 17, h = 28, ox = 1.000000, oy = 1.000000},
-      {x = 288, y = 231, w = 16, h = 30, ox = 1.000000, oy = 1.000000},
+      {x = 250, y = 201, w = 25, h = 24, ox = 0.750000, oy = 0.250000},
+      {x = 285, y = 201, w = 25, h = 26, ox = 0.750000, oy = 0.250000},
+      {x = 190, y = 234, w = 16, h = 24, ox = 0.750000, oy = 0.500000},
+      {x = 221, y = 233, w = 15, h = 26, ox = 0.750000, oy = 0.500000},
+      {x = 253, y = 232, w = 17, h = 28, ox = 0.750000, oy = 0.500000},
+      {x = 288, y = 231, w = 16, h = 30, ox = 0.750000, oy = 0.500000},
       {x = 187, y = 267, w = 23, h = 23, ox = 0.750000, oy = 0.750000},
       {x = 218, y = 266, w = 25, h = 25, ox = 0.750000, oy = 0.750000},
       {x = 250, y = 266, w = 24, h = 24, ox = 0.750000, oy = 0.750000},
       {x = 284, y = 266, w = 27, h = 27, ox = 0.750000, oy = 0.750000},
-      {x = 187, y = 296, w = 24, h = 22, ox = 0.500000, oy = 1.250000},
-      {x = 218, y = 296, w = 26, h = 21, ox = 0.500000, oy = 1.250000},
-      {x = 250, y = 297, w = 26, h = 20, ox = 0.500000, oy = 1.250000},
-      {x = 284, y = 297, w = 28, h = 20, ox = 0.500000, oy = 1.250000},
+      {x = 187, y = 296, w = 24, h = 22, ox = 0.500000, oy = 0.750000},
+      {x = 218, y = 296, w = 26, h = 21, ox = 0.500000, oy = 0.750000},
+      {x = 250, y = 297, w = 26, h = 20, ox = 0.500000, oy = 0.750000},
+      {x = 284, y = 297, w = 28, h = 20, ox = 0.500000, oy = 0.750000},
     },
     _META = {
       image_path = "./RocketSheet.png",

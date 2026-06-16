@@ -9,28 +9,11 @@ endif()
 
 set(CMAKE_C_FLAGS_DEBUG "-O0" CACHE STRING "" FORCE)
 
-include(FetchContent)
-
-FetchContent_Declare(
-    SDL3
-    GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
-    GIT_TAG        release-3.4.8 
-)
-
-FetchContent_MakeAvailable(SDL3)
-
-FetchContent_Declare(
-        SDL3_image
-        GIT_REPOSITORY https://github.com/libsdl-org/SDL_image.git
-        GIT_TAG release-3.4.4
-        GIT_SHALLOW TRUE
-        GIT_PROGRESS TRUE
-)
-
+set(BUILD_SHARED_LIBS ON)
 set(SDL3IMAGE_INSTALL OFF)
-set(BUILD_SHARED_LIBS FALSE)
 
-FetchContent_MakeAvailable(SDL3_image)
+add_subdirectory(vendored/SDL)
+add_subdirectory(vendored/SDL_image)
 
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS
     vendored/cJSON/*.c
@@ -41,7 +24,13 @@ file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS
 add_executable(${PROJECT_NAME} ${SOURCES})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL3::SDL3 SDL3_image::SDL3_image)
-target_include_directories(${PROJECT_NAME} PUBLIC ${SDL3_SOURCE_DIR}/include ${SDL3_IMAGE_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/vendored/cJSON ${CMAKE_SOURCE_DIR}/vendored/Nuklear)
+target_include_directories(${PROJECT_NAME} PUBLIC
+    ${CMAKE_SOURCE_DIR}/vendored/SDL/include
+    ${CMAKE_SOURCE_DIR}/vendored/SDL_image/include
+    ${CMAKE_SOURCE_DIR}/vendored/cJSON
+    ${CMAKE_SOURCE_DIR}/vendored/Nuklear
+    ${CMAKE_SOURCE_DIR}/vendored/cute_tiled
+)
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory

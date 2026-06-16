@@ -52,6 +52,15 @@ void Float_Update(void* data)
         TransitionToAnimation(entity, PLAYER_STATE_FLOAT + entity->direction, false, true);
     }
 
+    entity->xVel = rawH * 1.5f;
+    entity->yVel = rawV * 1.5f;
+
+    if (rawH != 0.0f && rawV != 0.0f)
+    {
+        entity->xVel *= 0.7071f; 
+        entity->yVel *= 0.7071f;
+    }
+
     entity->x += entity->xVel;
     entity->y += entity->yVel;
 }

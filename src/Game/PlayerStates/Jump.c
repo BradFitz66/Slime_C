@@ -35,7 +35,6 @@ void Jump_Update(void* data)
         //Transition to walk/idle animations based on input
         if (rawH != 0.0f || rawV != 0.0f)
         {
-            //TransitionToAnimation(entity, PLAYER_STATE_WALK + entity->direction, false, true);
             STATEMACHINE_ChangeState(entity->stateMachine, 1, entity); // Switch to walk state
             return;
         }
@@ -45,12 +44,19 @@ void Jump_Update(void* data)
     }
     else if (entity->z > 16.0f) 
     {
-        if (INPUT_GetButtonDown("Space") && entity->subState == 0){
+        if (INPUT_GetButton("Space") && entity->subState == 0){
             STATEMACHINE_ChangeState(entity->stateMachine, 4, entity); // Switch to float state when in air
             return;
         }
     }
 
+    entity->xVel = rawH * 1.5f;
+    entity->yVel = rawV * 1.5f;
+    if (rawH != 0.0f && rawV != 0.0f)
+    {
+        entity->xVel *= 0.7071f; 
+        entity->yVel *= 0.7071f;
+    }
 
     entity->x += entity->xVel;
     entity->y += entity->yVel;

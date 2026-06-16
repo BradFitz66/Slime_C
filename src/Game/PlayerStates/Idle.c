@@ -6,6 +6,13 @@
 void Idle_Enter(void* data)
 {
     Entity* entity = (Entity*)data;
+    entity->rotation = 0;
+    entity->xScale = 1.0f;
+    entity->yScale = 1.0f;
+    entity->renderShadow = true;
+    entity->tempVal1 = 0.0f;
+    entity->xVel = 0.0f;
+    entity->yVel = 0.0f;
 }
 
 void Idle_Update(void* data)

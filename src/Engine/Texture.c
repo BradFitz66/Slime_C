@@ -1,7 +1,10 @@
 #include "Texture.h"
+#include "DrawStats.h"
 #include <SDL3_image/SDL_image.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+
 
 Texture* TEXTURE_LoadFromFile(const char* filePath, SDL_Renderer* renderer) {
     Texture* texture = malloc(sizeof(Texture));
@@ -42,6 +45,7 @@ void TEXTURE_Render(Texture* texture, SDL_Renderer* renderer, int x, int y) {
 
     SDL_FRect destRect = {x, y, 0, 0};
     SDL_GetTextureSize(texture->texture, &destRect.w, &destRect.h);
+    DRAWSTATS_Inc();
     SDL_RenderTexture(renderer, texture->texture, NULL, &destRect);
 }
 
@@ -53,5 +57,6 @@ void TEXTURE_RenderCentered(Texture* texture, SDL_Renderer* renderer, int cx, in
     float sw = w * scale;
     float sh = h * scale;
     SDL_FRect destRect = { cx - sw / 2, cy - sh / 2, sw, sh };
+    DRAWSTATS_Inc();
     SDL_RenderTexture(renderer, texture->texture, NULL, &destRect);
 }

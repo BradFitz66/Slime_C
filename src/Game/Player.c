@@ -1,10 +1,10 @@
 #include "Player.h"
-#include "../Engine/TextureSheet.h"
 #include "../Engine/Input.h"
 #include "../Engine/StateMachine.h"
 #include "PlayerStates/PlayerStates.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 #include <nuklear.h>
 // Animation order: Up=0, DiagTR=1, R=2, DiagDR=3, Down=4, DiagDL=5, L=6, DiagTL=7
@@ -53,8 +53,12 @@ Entity *PLAYER_Create(SDL_Renderer *renderer, int x, int y)
     player->animTimer = 0;
     player->timer = 0;
     player->subState = 0;
+    player->rotation = 0;
+    player->xScale = 1.0f;
+    player->yScale = 1.0f;
+    player->renderShadow = true;
 
-    player->textureSheet = TEXTURESHEET_ParseFromQuadTasticJSON("Assets/SlimeAnim.json", renderer);
+    player->sprite = ANIMATEDSPRITE_ParseFromQuadTasticJSON("Assets/SlimeAnim.json", renderer);
     player->shadowTexture = TEXTURE_LoadFromFile("Assets/Shadow.png", renderer);
     player->stateMachine = STATEMACHINE_Create(player); // Placeholder state machine with 3 states and no initial data
     
@@ -63,10 +67,12 @@ Entity *PLAYER_Create(SDL_Renderer *renderer, int x, int y)
     STATEMACHINE_AddState(player->stateMachine, (State){Squish_Enter, Squish_Update, Squish_Exit});
     STATEMACHINE_AddState(player->stateMachine, (State){Jump_Enter, Jump_Update, Jump_Exit});
     STATEMACHINE_AddState(player->stateMachine, (State){Float_Enter, Float_Update, Float_Exit});
+    STATEMACHINE_AddState(player->stateMachine, (State){Stretch_Enter, Stretch_Update, Stretch_Exit});
+    STATEMACHINE_AddState(player->stateMachine, (State){Blasting_Enter, Blasting_Update, Blasting_Exit});
 
     STATEMACHINE_ChangeState(player->stateMachine, 0, player); // Start in idle state
 
-    if (!player->textureSheet)
+    if (!player->sprite)
     {
         fprintf(stderr, "Failed to load texture sheet for player entity\n");
         free(player);
@@ -81,10 +87,10 @@ Entity *PLAYER_Create(SDL_Renderer *renderer, int x, int y)
 
 void TransitionToAnimation(Entity *entity, int animIdx, bool waitForFinish, bool preserveFrame)
 {
-    if (!entity || !entity->textureSheet)
+    if (!entity || !entity->sprite)
         return;
 
-    if (animIdx < 0 || animIdx >= entity->textureSheet->animationCount)
+    if (animIdx < 0 || animIdx >= entity->sprite->animationCount)
     {
         fprintf(stderr, "Invalid animation index: %d\n", animIdx);
         return;
@@ -93,19 +99,19 @@ void TransitionToAnimation(Entity *entity, int animIdx, bool waitForFinish, bool
     if (waitForFinish)
     {
         // Are we at the final frame of the current animation?
-        Animation *currentAnim = &entity->textureSheet->animations[entity->animIdx];
+        Animation *currentAnim = &entity->sprite->animations[entity->animIdx];
         if (currentAnim->currentFrame < currentAnim->frameCount - 1)
         {
             return;
         }
     }
 
-    Animation *prevAnim = &entity->textureSheet->animations[entity->animIdx];
+    Animation *prevAnim = &entity->sprite->animations[entity->animIdx];
     float elapsedTime = prevAnim->elapsedTime;
     int prevFrame = prevAnim->currentFrame;
 
 
-    Animation *anim = &entity->textureSheet->animations[animIdx];
+    Animation *anim = &entity->sprite->animations[animIdx];
     if (preserveFrame)
     {
         int frameCount = anim->frameCount;
@@ -118,7 +124,7 @@ void TransitionToAnimation(Entity *entity, int animIdx, bool waitForFinish, bool
         anim->currentFrame = 0;
     }
     entity->animIdx = animIdx;
-    entity->textureSheet->currentAnimationIdx = animIdx;
+    entity->sprite->currentAnimationIdx = animIdx;
 }
 
 
@@ -127,7 +133,7 @@ void PLAYER_update(Entity *entity, void *state)
     if (!entity)
         return;
 
-    Animation *anim = &entity->textureSheet->animations[entity->animIdx];
+    Animation *anim = &entity->sprite->animations[entity->animIdx];
     entity->animTimer += 1;
     int frameDuration = (int)(anim->frames[anim->currentFrame].frameDuration / 16.0f); // Convert ms to frames at ~60fps
     if (entity->animTimer >= frameDuration)
@@ -146,25 +152,7 @@ void PLAYER_update(Entity *entity, void *state)
             }
         }
     }
- 
-    float rawH = INPUT_GetAxis("Horizontal");
-    float rawV = INPUT_GetAxis("Vertical");
-
-    entity->xVel = rawH * 1.5f; 
-    entity->yVel = rawV * 1.5f;
-
-    //Normalize diagonal movement
-    if (rawH != 0.0f && rawV != 0.0f)
-    {
-        entity->xVel *= 0.7071f; 
-        entity->yVel *= 0.7071f;
-    }
-
-    // Animation direction switching
-    int moving = (rawH != 0.0f || rawV != 0.0f);
-    int spaceDown = INPUT_GetButton("Space");
-    int targetAnim = 0;
-    
+     
     STATEMACHINE_Update(entity->stateMachine, entity);
 }
 
@@ -173,7 +161,7 @@ void PLAYER_render(Entity *entity, SDL_Renderer *renderer, struct nk_context* ct
     if (!entity || !renderer || !ctx)
         return;
 
-    TextureSheet *sheet = entity->textureSheet;
+    AnimatedSprite *sheet = entity->sprite;
     if (!sheet)
         return;
 
@@ -189,7 +177,9 @@ void PLAYER_render(Entity *entity, SDL_Renderer *renderer, struct nk_context* ct
 
         nk_label(ctx, "Direction:", NK_TEXT_LEFT);
         const char* directions[] = {"Up", "DiagTR", "Right", "DiagDR", "Down", "DiagDL", "Left", "DiagTL"};
-        nk_label(ctx, directions[entity->direction], NK_TEXT_LEFT);
+        char dirStr[64];
+        snprintf(dirStr, sizeof(dirStr), "%s (%d)", directions[entity->direction], entity->direction);
+        nk_label(ctx, dirStr, NK_TEXT_LEFT);
         nk_layout_row_dynamic(ctx, 20, 1);
         
         nk_label(ctx, "Current Animation:", NK_TEXT_LEFT);
@@ -209,25 +199,45 @@ void PLAYER_render(Entity *entity, SDL_Renderer *renderer, struct nk_context* ct
         snprintf(posStr, sizeof(posStr), "X: %.2f, Y: %.2f, Z: %.2f", entity->x, entity->y, entity->z);
         nk_label(ctx, posStr, NK_TEXT_LEFT);
 
+        //Scale
+        nk_label(ctx, "Scale:", NK_TEXT_LEFT);
+        char scaleStr[64];
+        snprintf(scaleStr, sizeof(scaleStr), "X: %.2f, Y: %.2f", entity->xScale, entity->yScale);
+        nk_label(ctx, scaleStr, NK_TEXT_LEFT);
+
+        //Rotation
+        nk_label(ctx, "Rotation:", NK_TEXT_LEFT);
+        char rotStr[64];
+        snprintf(rotStr, sizeof(rotStr), "%.2f degrees", entity->rotation);
+        nk_label(ctx, rotStr, NK_TEXT_LEFT);
+
         //Timer
         nk_label(ctx, "Timer:", NK_TEXT_LEFT);
         char timerStr[64];
-        snprintf(timerStr, sizeof(timerStr), "Timer: %d", entity->timer);
+        snprintf(timerStr, sizeof(timerStr), "%u", entity->timer);
         nk_label(ctx, timerStr, NK_TEXT_LEFT);
+
+        //TempVal1
+        nk_label(ctx, "TempVal1:", NK_TEXT_LEFT);
+        char tempValStr[64];
+        snprintf(tempValStr, sizeof(tempValStr), "%.2f", entity->tempVal1);
+        nk_label(ctx, tempValStr, NK_TEXT_LEFT);
     }
     nk_end(ctx);
 
   
     //Render the shadow with transparent color
     SDL_SetTextureColorMod(entity->shadowTexture->texture, 0, 0, 0);
-    SDL_SetTextureAlphaMod(entity->shadowTexture->texture, 128); // Set alpha to 50%
+    SDL_SetTextureAlphaMod(entity->shadowTexture->texture, 128); 
 
     float shadow_radius = 16.0f - (entity->z/16.0f); // Max radius of 16 when z=0, shrinking to 0 as z approaches 256
     if (shadow_radius < 0.0f) shadow_radius = 0.0f;
     float shadow_scale = shadow_radius / 16.0f; // Scale factor for shadow texture based on radius
-
-    // Shadow center: horizontally centred on player, 7px above feet
-    TEXTURE_RenderCentered(entity->shadowTexture, renderer, entity->x, entity->y - 7, shadow_scale);
+    if (entity->renderShadow)
+       TEXTURE_RenderCentered(entity->shadowTexture, renderer, entity->x, entity->y - 7, shadow_scale);
     
-    TEXTURESHEET_Render(sheet, renderer, entity->x, entity->y - (int)entity->z);
+    int flipX = entity->sprite->animations[entity->animIdx].flipX;
+    int flipY = entity->sprite->animations[entity->animIdx].flipY;
+
+    ANIMATEDSPRITE_Render(sheet, renderer, entity->x, entity->y - (int)entity->z, entity->xScale, entity->yScale, entity->rotation, entity->rotationPivotX, entity->rotationPivotY, (SDL_FlipMode)((flipX ? SDL_FLIP_HORIZONTAL : 0) | (flipY ? SDL_FLIP_VERTICAL : 0)));
 }

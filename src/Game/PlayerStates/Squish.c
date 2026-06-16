@@ -5,6 +5,9 @@
 void Squish_Enter(void* data)
 {
     Entity* entity = (Entity*)data;
+    entity->rotation = 0;
+    entity->xScale = 1.0f;
+    entity->yScale = 1.0f;
     TransitionToAnimation(entity, PLAYER_STATE_SQUISH + entity->direction, false, false);
 }
 
@@ -25,13 +28,18 @@ void Squish_Update(void* data)
     if (rawH != 0.0f || rawV != 0.0f)
     {
         entity->direction = GetDirectionIndex(rawH, rawV);
-        TransitionToAnimation(entity, PLAYER_STATE_SQUISH + entity->direction, false, true);
-
+        Animation* anim = &entity->sprite->animations[entity->animIdx];
+        if (anim->currentFrame == anim->frameCount - 1)
+        {
+            STATEMACHINE_ChangeState(entity->stateMachine, 5, entity); 
+            return;
+        }
     }
 }
 
 void Squish_Exit(void* data)
 {
     Entity* entity = (Entity*)data;
+    
     if (!entity) return;
 }

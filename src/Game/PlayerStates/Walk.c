@@ -24,7 +24,12 @@ void Walk_Update(void* data)
     }
     if (rawH == 0.0f && rawV == 0.0f)
     {
-        STATEMACHINE_ChangeState(entity->stateMachine, 0, entity); // Switch back to idle state
+        // Wait for the current walk cycle to finish, then switch to idle
+        Animation* anim = &entity->sprite->animations[entity->animIdx];
+        if (anim->currentFrame >= anim->frameCount - 1)
+        {
+            STATEMACHINE_ChangeState(entity->stateMachine, 0, entity);
+        }
         return;
     }
     if (INPUT_GetButton("Space"))
@@ -32,7 +37,19 @@ void Walk_Update(void* data)
         STATEMACHINE_ChangeState(entity->stateMachine, 2, entity); // Switch to squish state
         return;
     }
+    
+    entity->xVel = rawH * 1.5f; 
+    entity->yVel = rawV * 1.5f;
 
+    //Normalize diagonal movement
+    if (rawH != 0.0f && rawV != 0.0f)
+    {
+        entity->xVel *= 0.7071f; 
+        entity->yVel *= 0.7071f;
+    }
+
+    // Animation direction switching
+    int moving = (rawH != 0.0f || rawV != 0.0f);
 
     entity->x += entity->xVel;
     entity->y += entity->yVel;
@@ -40,4 +57,8 @@ void Walk_Update(void* data)
 
 void Walk_Exit(void* data)
 {
+    Entity* entity = (Entity*)data;
+    if (!entity) return;
+    entity->xVel = 0.0f;
+    entity->yVel = 0.0f;
 }

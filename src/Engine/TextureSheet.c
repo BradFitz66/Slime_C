@@ -1,272 +1,101 @@
 #include "TextureSheet.h"
-#include <stdio.h>
-#include <SDL3_image/SDL_image.h>
-#include <stdlib.h>
-#include <cJSON.h>
+#include "DrawStats.h"
 #include <stdio.h>
 #include <string.h>
-TextureSheet* TEXTURESHEET_ParseFromQuadTasticJSON(const char* jsonFilePath, SDL_Renderer* renderer) {
+#include <stdlib.h>
+TextureSheet* TEXTURESHEET_New(const char* imagePath, Quad** quads, int quadCount, SDL_Renderer* renderer) {
     TextureSheet* sheet = malloc(sizeof(TextureSheet));
-    
-    char imagePathStr[256] = {0}; // Buffer to hold the constructed image path
-
-    cJSON *root;
-    cJSON *quads;
-    cJSON *metaData;
-    cJSON *imagePath;
-    cJSON *pathElements;
-    cJSON *pathRoot;
-    cJSON *animations;
-    cJSON* temp;
-
-
-    FILE* file = fopen(jsonFilePath, "r");
-    printf("Loading JSON file: %s\n", jsonFilePath);
-    fseek(file, 0, SEEK_END); // seek to end of file
-    size_t size = ftell(file); // get current file pointer
-    fseek(file, 0, SEEK_SET); // seek back to beginning of file
-    char* buffer = malloc(size + 1); // allocate buffer for file content
-    if (!file) {
-        fprintf(stderr, "Failed to open JSON file: %s\n", jsonFilePath);
-        return NULL;
-    }
-    size_t readSize = fread(buffer, 1, size, file);
-    if (readSize <= 0) {
-        fprintf(stderr, "Failed to read JSON file: %s\n", jsonFilePath);
-        fclose(file);
-        return NULL;
-    }
-    buffer[readSize] = '\0'; // Null-terminate the buffer
-    fclose(file);
-
-
-    size_t temp_n;
     if (!sheet) {
         fprintf(stderr, "Failed to allocate memory for TextureSheet\n");
         return NULL;
     }
-
-    root = cJSON_Parse(buffer);
-    if (!root) {
-        fprintf(stderr, "Failed to load JSON file: %s\n", cJSON_GetErrorPtr());
-        free(buffer);
+    sheet->imagePath = malloc(sizeof(char) * (strlen(imagePath) + 1));
+    if (!sheet->imagePath) {
+        fprintf(stderr, "Failed to allocate memory for TextureSheet image path\n");
+        free(sheet);
         return NULL;
     }
-
-    quads = cJSON_GetObjectItem(root, "quads");
-    if (!quads) {
-        fprintf(stderr, "Failed to get quads object from JSON\n");
-        free(buffer);
-        return NULL;
-    }
-
-    metaData = cJSON_GetObjectItem(quads, "_META");
-    if (!metaData) {
-        fprintf(stderr, "Failed to get _META object from JSON\n");
-        free(buffer);
-        return NULL;
-    }
-
-    imagePath = cJSON_GetObjectItem(metaData, "image_path");
-    if (!imagePath) {
-        fprintf(stderr, "Failed to get image_path from JSON\n");
-        free(buffer);
-        return NULL;
-    } 
-
-    bool relative = false;
-    pathRoot = cJSON_GetObjectItem(imagePath, "root");
-    if (!pathRoot) {
-        relative = true;
-    }    
-    if (!relative){
-        pathElements = cJSON_GetObjectItem(imagePath, "elements");
-        if (!pathElements) {
-            fprintf(stderr, "Failed to get elements array from JSON\n");
-            free(buffer);
-            return NULL;
-        }     
-
-        //Append root to string
-        char* rootStr = cJSON_GetStringValue(pathRoot);
-        if (!rootStr) {
-            fprintf(stderr, "Failed to get string value from root\n");
-            free(buffer);
-            return NULL;
-        } 
-        imagePathStr[0] = '\0'; //Initialize string to empty
-        strcat_s(imagePathStr, sizeof(imagePathStr), rootStr);
-        temp_n = cJSON_GetArraySize(pathElements);
-
-        if (temp_n) {
-            for (int i = 0; i < temp_n; i++) {
-                temp = cJSON_GetArrayItem(pathElements, i);
-                cJSON* pathElement = cJSON_GetArrayItem(pathElements, i);
-                char* elementStr = cJSON_GetStringValue(pathElement);
-                if (!elementStr) {
-                    fprintf(stderr, "Failed to get string value from path element at index %d\n", i);
-                    free(buffer);
-                    return NULL;
-                }
-                //Append path element to string with a / separator
-                strcat_s(imagePathStr, sizeof(imagePathStr), elementStr);
-                if (i < temp_n - 1)
-                    strcat_s(imagePathStr, sizeof(imagePathStr), "/");
-            }
-        }
-    }
-    else{
-        char* relativePathStr = cJSON_GetStringValue(imagePath);
-        if (!relativePathStr) {
-            fprintf(stderr, "Failed to get string value from image_path\n");
-            free(buffer);
-            return NULL;
-        } 
-        //Extract directory from jsonFilePath
-        char directory[256] = {0};
-        strncpy_s(directory, sizeof(directory), jsonFilePath, strrchr(jsonFilePath, '/') - jsonFilePath);
-        //Append directory to relative path
-        snprintf(imagePathStr, sizeof(imagePathStr), "%s%s", directory, relativePathStr);
-    }
-    printf("Full image path: %s\n", imagePathStr);
-    animations = cJSON_GetObjectItem(root, "animations");
-    if (!animations) {
-        fprintf(stderr, "Failed to get animations object from JSON\n");
-        free(buffer);
-        return NULL;
-    }
-    temp_n = cJSON_GetArraySize(animations);
-    sheet->animationCount = temp_n;
-    sheet->animations = malloc(sizeof(Animation) * temp_n);
-    sheet->currentAnimationIdx = 0;
-    printf("Number of animations: %zu\n", temp_n);
-    for (int i = 0; i < temp_n; i++) {
-        cJSON* animation = cJSON_GetArrayItem(animations, i);
-        cJSON* flipX = cJSON_GetObjectItem(animation, "flipX");
-        cJSON* flipY = cJSON_GetObjectItem(animation, "flipY");
-        cJSON* frames = cJSON_GetObjectItem(animation, "frames");
-        cJSON* loop = cJSON_GetObjectItem(animation, "loop");
-        size_t frameCount = cJSON_GetArraySize(frames);
-
-        if (!animation || !frames || !flipX || !flipY || !loop) {
-            fprintf(stderr, "Invalid animation at index %d\n", i);
-            free(buffer);
-            return NULL;
-        }
-
-        sheet->animations[i].frames = malloc(sizeof(Frame) * frameCount);
-        sheet->animations[i].frameCount = frameCount;
-        sheet->animations[i].currentFrame = 0;
-        sheet->animations[i].elapsedTime = 0;
-        sheet->animations[i].flipX = flipX->valueint ? true : false;
-        sheet->animations[i].flipY = flipY->valueint ? true : false;
-        sheet->animations[i].loop = loop->valueint ? true : false;
-        for (int j = 0; j < frameCount; j++) {
-            cJSON* frame = cJSON_GetArrayItem(frames, j);
-            if (!frame) {
-                fprintf(stderr, "Invalid frame at index %d for animation %d\n", j, i);
-                free(buffer);
-                return NULL;
-            }
-            int duration = atoi(cJSON_GetObjectItem(frame, "duration")->valuestring);
-            if (duration <= 0) {
-                fprintf(stderr, "Invalid frame duration at index %d for animation %d\n", j, i);
-                free(buffer);
-                return NULL;
-            }
-
-            cJSON* quad = cJSON_GetObjectItem(frame, "quad");
-            if (!quad) {
-                fprintf(stderr, "Failed to get quad object from JSON\n");
-                free(buffer);
-                return NULL;
-            }
-            cJSON* x = cJSON_GetObjectItem(quad, "x");
-            cJSON* y = cJSON_GetObjectItem(quad, "y");
-            cJSON* width = cJSON_GetObjectItem(quad, "w");
-            cJSON* height = cJSON_GetObjectItem(quad, "h");
-            cJSON* offsetX = cJSON_GetObjectItem(quad, "ox");
-            cJSON* offsetY = cJSON_GetObjectItem(quad, "oy");
-
-            if(!cJSON_IsNumber(x) || !cJSON_IsNumber(y) || !cJSON_IsNumber(width) || !cJSON_IsNumber(height) || !cJSON_IsNumber(offsetX) || !cJSON_IsNumber(offsetY)) {
-                fprintf(stderr, "Invalid quad values for frame at index %d for animation %d\n", j, i);
-                //Print the quad object for debugging
-                char* quadStr = cJSON_Print(quad);
-                fprintf(stderr, "Quad JSON: %s\n", quadStr);
-                free(quadStr);
-                free(buffer);
-                return NULL;
-            }
-            
-            float ox = (float)offsetX->valuedouble;
-            float oy = (float)offsetY->valuedouble;
-            //Convert offset from relative to absolute by multiplying it by the frame dimensionson;
-
-            float absOffsetX = flipX ? width->valuedouble * ox : width->valuedouble * -ox;
-            float absOffsetY = flipY ? height->valuedouble * oy : height->valuedouble * -oy;
-
-            Quad* q = malloc(sizeof(Quad)); 
-            *q = (Quad){x->valuedouble, y->valuedouble, width->valuedouble, height->valuedouble, absOffsetX, absOffsetY};
-
-            Frame f = {q, duration};
-            sheet->animations[i].frames[j] = f;
-        }
-    }
-
-
-    sheet->imagePath = malloc(sizeof(char) * (strlen(imagePathStr) + 1));
-    strcpy_s(sheet->imagePath, strlen(imagePathStr) + 1, imagePathStr);
-    sheet->texture = IMG_LoadTexture(renderer, sheet->imagePath);
+    strcpy_s(sheet->imagePath, strlen(imagePath) + 1, imagePath);
+    sheet->texture = TEXTURE_LoadFromFile(imagePath, renderer);
     if (!sheet->texture) {
-        fprintf(stderr, "Failed to load texture: %s\n", SDL_GetError());
-        free(buffer);
+        fprintf(stderr, "Failed to load texture for TextureSheet: %s\n", imagePath);
+        free(sheet->imagePath);
+        free(sheet);
         return NULL;
     }
-    free(buffer);
-
-    
-
+    sheet->quads = quads;
+    sheet->quadCount = quadCount;
     return sheet;
 }
 
-void TEXTURESHEET_Render(TextureSheet* sheet, SDL_Renderer* renderer, int x, int y) {
-    if (!sheet || !renderer) return;
+void TEXTURESHEET_RenderAllQuadsBatched(TextureSheet* sheet, SDL_Renderer* renderer, int* quadIndices, int* xs, int* ys, int count) {
+    if (!sheet || !renderer || !quadIndices || !xs || !ys || count <= 0) return;
 
-    Animation* anim = &sheet->animations[sheet->currentAnimationIdx];
-    Frame* frame = &anim->frames[anim->currentFrame];
+    float texW, texH;
+    SDL_GetTextureSize(sheet->texture->texture, &texW, &texH);
 
-    SDL_FRect srcRect = {
-        .x = frame->frameQuad->x,
-        .y = frame->frameQuad->y,
-        .w = frame->frameQuad->width,
-        .h = frame->frameQuad->height
-    };
+    SDL_Vertex* vertices = malloc(sizeof(SDL_Vertex) * count * 4);
+    int*        indices  = malloc(sizeof(int)        * count * 6);
+    if (!vertices || !indices) { free(vertices); free(indices); return; }
 
-    SDL_FRect destRect = {
-        .x = x - frame->frameQuad->offsetX,
-        .y = y - frame->frameQuad->offsetY,
-        .w = srcRect.w,
-        .h = srcRect.h
-    };
+    for (int i = 0; i < count; i++) {
+        if (quadIndices[i] < 0 || quadIndices[i] >= sheet->quadCount) continue;
 
-    SDL_FlipMode flip = SDL_FLIP_NONE;
-    if (anim->flipX) flip |= SDL_FLIP_HORIZONTAL;
-    if (anim->flipY) flip |= SDL_FLIP_VERTICAL;
+        Quad* quad = sheet->quads[quadIndices[i]];
 
-    SDL_RenderTextureRotated(renderer, sheet->texture, &srcRect, &destRect, 0, NULL, flip);
+        float dx = (float)xs[i];
+        float dy = (float)ys[i];
+        float dw = (float)quad->width;
+        float dh = (float)quad->height;
+
+        float u0 = (float)quad->x          / texW;
+        float v0 = (float)quad->y          / texH;
+        float u1 = (float)(quad->x + quad->width)  / texW;
+        float v1 = (float)(quad->y + quad->height) / texH;
+
+        SDL_FColor white = {1.0f, 1.0f, 1.0f, 1.0f};
+
+        int vi = i * 4;
+        vertices[vi + 0] = (SDL_Vertex){{dx,      dy     }, white, {u0, v0}};
+        vertices[vi + 1] = (SDL_Vertex){{dx + dw, dy     }, white, {u1, v0}};
+        vertices[vi + 2] = (SDL_Vertex){{dx + dw, dy + dh}, white, {u1, v1}};
+        vertices[vi + 3] = (SDL_Vertex){{dx,      dy + dh}, white, {u0, v1}};
+
+        int ii = i * 6;
+        indices[ii + 0] = vi + 0;
+        indices[ii + 1] = vi + 1;
+        indices[ii + 2] = vi + 2;
+        indices[ii + 3] = vi + 0;
+        indices[ii + 4] = vi + 2;
+        indices[ii + 5] = vi + 3;
+    }
+
+    DRAWSTATS_Inc();
+    SDL_RenderGeometry(renderer, sheet->texture->texture, vertices, count * 4, indices, count * 6);
+
+    free(vertices);
+    free(indices);
+}
+
+void TEXTURESHEET_RenderQuad(TextureSheet* sheet, SDL_Renderer* renderer, int quadIndex, int x, int y) {
+    if (!sheet || !renderer || quadIndex < 0 || quadIndex >= sheet->quadCount) return;
+
+    Quad* quad = sheet->quads[quadIndex];
+    SDL_FRect srcRect = {quad->x, quad->y, quad->width, quad->height};
+    SDL_FRect destRect = {x, y, quad->width, quad->height};
+    DRAWSTATS_Inc();
+    SDL_RenderTexture(renderer, sheet->texture->texture, &srcRect, &destRect);
 }
 
 void TEXTURESHEET_Destroy(TextureSheet* sheet) {
     if (!sheet) return;
 
-    SDL_DestroyTexture(sheet->texture);
+    TEXTURE_Destroy(sheet->texture);
     free(sheet->imagePath);
-    for (int i = 0; i < sheet->animationCount; i++) {
-        for (int j = 0; j < sheet->animations[i].frameCount; j++) {
-            free(sheet->animations[i].frames[j].frameQuad);
-        }
-        free(sheet->animations[i].frames);
+    for (int i = 0; i < sheet->quadCount; i++) {
+        free(sheet->quads[i]);
     }
-    free(sheet->animations);
+    free(sheet->quads);
     free(sheet);
 }
+
